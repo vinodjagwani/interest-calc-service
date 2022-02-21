@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: ${SPRING_APPLICATION_NAME:interest-calc-service}
+  webflux:
+    basePath: /interest-calc-service
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    discovery:
+      enabled: false
+  r2dbc:
+    url: r2dbc:pool:postgresql://localhost:5432/accounts-db?schema=public
+    username: postgres
+    password: postgres
+
+management:
+  server:
+    port: 9088
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, info, prometheus, beans
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    au:
+      theprogrampractice:
+        interest: TRACE
+    org:
+      zalando:
+        logbook: TRACE
+
+server:
+  port: 8088
+
+logbook:
+  include:
+    - /**
+  exclude:
+    - /actuator/**
+    - ${spring.webflux.basePath}/webjars/**
+    - ${spring.webflux.basePath}/v2/api-docs/**
+    - ${spring.webflux.basePath}/swagger-ui/**
+    - ${spring.webflux.basePath}/swagger-resources/**
+  filter.enabled: true
+  format.style: splunk
+  strategy: default
+  obfuscate:
+    parameters:
+      - access_token
+      - password
+      - token
+
+interest-rates:
+  daily-rate-percentage: 2
+  monthly-rate-percentage: 3
+
+kafka:
+  bootstrap:
+    servers:
+      - localhost:9092
+  topics:
+    - demo-topic
+  client:
+    id: reactive-kafka-producer
+  acks: all
