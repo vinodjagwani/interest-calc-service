@@ -1,9 +1,9 @@
 package au.theprogrampractice.interest.constant;
 
-import lombok.experimental.UtilityClass;
 
-@UtilityClass
-public class SwaggerConstants {
+public final class SwaggerConstants {
+
+    private SwaggerConstants(){}
 
     public static final String SUCCESS_PHRASE = "Success";
     public static final String INVALID_REQUEST = "Invalid JSON request";
